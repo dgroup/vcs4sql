@@ -2,83 +2,55 @@
 
 require "securerandom"
 require "digest"
-require_relative "changelog"
+require "fileutils"
+require_relative "../changelog"
 require_relative "expected"
+require_relative "existing"
 
 # The database schema migration
 #
 # Author:: Yurii Dubinka (yurii.dubinka@gmail.com)
 # Copyright:: Copyright (c) 2019-2020 Yurii Dubinka
 # License:: MIT
-module Vcs4sql::Sqlite
-  class Migration
-
-    def initialize(file)
-      @conn = SQLite3::Database.new file
-      @conn.results_as_hash = true
-    end
-
-    def upgrade(home: "../upgrades/sqlite", testdata: false, ext: testdata ? "*.testdata.sql" : "*.sql")
-      # @todo #/DEV Lock the upgrade procedure in order to avoid the cases when multiple processes are going
-      #  to modify/upgrade the same database schema. No concurrent upgrade is allowed so far.
-      install_vcs4sql
-      existing = @conn.query("select /* ll.sqlid:#{__FILE__}:#{__method__} */ * from changelog").map do |row|
-        Changelog.new(
-            row["file"],
-            row["applied"],
-            row["version"],
-            row["md5sum"],
-            row["sql"],
-            id: row["id"]
-        )
+module Vcs4sql
+  module Sqlite
+    class Migration
+      def initialize(file)
+        FileUtils.mkdir_p File.dirname(file)
+        @conn = SQLite3::Database.new file
+        @conn.results_as_hash = true
       end
-      expected = Dir.glob("#{home}/#{ext}").select { |f| File.file? f }.each_with_index.map do |f, i|
-        sql = File.read(f).to_s.gsub "\r", ""
-        md5 = Digest::MD5.hexdigest sql
-        Changelog.new(f, Time.now.iso8601(6), i, md5, sql)
-      end
-      if existing.empty?
-        expected.each { |change| change.apply(@conn) }
-      else
-        version = -1
-        expected.each_with_index do |change, i|
-          if !existing[i].nil?
-            if change.md5sum == existing[i].md5sum
+
+      # @param home
+      # @param testdata
+      def upgrade(home, testdata=false)
+        install_vcs4sql
+        existing = Vcs4sql::Sqlite::Existing.new @conn
+        expected = Vcs4sql::Sqlite::Expected.new home, testdata
+        if existing.empty?
+          expected.apply_all(@conn)
+        else
+          version = -1
+          expected.each_with_index do |change, i|
+            break if existing.has(i)
+
+            if change.matches existing.change(i)
               version = i
             else
-              raise <<-MSG
-vcs4sql-001: Version '#{change.version}' has checksum mismatch.
-                
-The possible root cause is that the file with migration, which was applied already, got changed recently.
-As a workaround, you may change the md5sum in the database in case if these changes are minor 
-and don't affect the structure:
-update changelog set md5sum='#{change.md5sum}' where id=#{existing[i].id}
-
-In case if changes are major and affect the database structure then they should be reverted 
-and introduce it as a new change. 
-
-Expected '#{change.version}' version from '#{change.file}' (#{change.md5sum}) has SQL:
-#{change.sql}
-.............................................................................................
-Existing '#{existing[i].version}' version from '#{existing[i].file}' (#{existing[i].md5sum}) has SQL:
-#{existing[i].sql}
-.............................................................................................
-              MSG
+              change.alert existing.change(i)
             end
-          else
-            break
           end
-        end
-        expected.select { |change| change.version > version }.each do |change|
-          change.apply(@conn)
+          expected.apply(version, @conn)
         end
       end
-    end
 
-    private
+      private
 
-    def install_vcs4sql
-      @conn.execute_batch <<-SQL
+      def install_vcs4sql
+        # @todo #/DEV Lock the upgrade procedure in order to avoid the cases
+        #  when multiple processes are going to modify/upgrade the same database
+        #  schema. No concurrent upgrades is allowed so far.
+        @conn.execute_batch <<-SQL
         create table if not exists changelog (
             id        integer primary key autoincrement,
             file      text not null,
@@ -92,7 +64,8 @@ Existing '#{existing[i].version}' version from '#{existing[i].file}' (#{existing
             locked integer,
             lockedby text
         );
-      SQL
+        SQL
+      end
     end
   end
 end

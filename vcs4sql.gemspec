@@ -38,8 +38,12 @@ elegant way without any dependencies on existing frameworks.'
 
   spec.required_ruby_version = ">= 2.6.0"
 
-  spec.add_development_dependency "activesupport", "~> 6.0"
+  spec.add_runtime_dependency "activesupport", "~> 6.0"
+  spec.add_runtime_dependency "fileutils"
+  spec.add_runtime_dependency "sqlite3"
+
   spec.add_development_dependency "bundler", "~> 2.0"
+  spec.add_development_dependency "debase", "~> 0.2.4.1"
   spec.add_development_dependency "minitest", "~> 5.11"
   spec.add_development_dependency "minitest-ci", "~> 3.4"
   spec.add_development_dependency "minitest-reporters", "~> 1.3"
@@ -47,4 +51,5 @@ elegant way without any dependencies on existing frameworks.'
   spec.add_development_dependency "rubocop", "0.78.0"
   spec.add_development_dependency "rubocop-minitest", "0.5.1"
   spec.add_development_dependency "rubocop-performance", "1.5.2"
+  spec.add_development_dependency "ruby-debug-ide", "~> 0.7.0"
 end

@@ -35,7 +35,7 @@ The gem is available as open source under the terms of the [MIT License](license
 
 ## Code of conduct
 
-Everyone interacting in this project’s codebases, issue trackers, chat rooms and mailing lists is expected to follow the [code of conduct](CODE_OF_CONDUCT.md).
+Everyone interacting in this project’s codebases, issue trackers, chat rooms and mailing lists is expected to follow the [code of conduct](.github/CODE_OF_CONDUCT.md).
 
 ## Contribution guide
 

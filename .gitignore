@@ -6,5 +6,6 @@
 /pkg/
 /site/
 /spec/reports/
-/tmp/
+/.tmp/
 /Gemfile.lock
+/test/resources/**/*.db

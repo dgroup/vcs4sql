@@ -6,22 +6,34 @@
 # Copyright:: Copyright (c) 2019-2020 Yurii Dubinka
 # License:: MIT
 module Vcs4sql
+  module Sqlite
+    class Existing
+      def initialize(conn, sql: "select * from changelog order by version")
+        @changelog = conn.query(sql).map do |row|
+          Changelog.new(
+            row["file"],
+            row["applied"],
+            row["version"],
+            row["md5sum"],
+            row["sql"],
+            id: row["id"]
+          )
+        end
+      end
 
-  class Existing
+      def empty?
+        @changelog.empty?
+      end
 
-    def initialize(conn)
-      @conn = conn
-      @changes = "select /* ll.sqlid:#{__FILE__}:#{__method__} */ * from changelog"
-      @changelog = @conn.query(@changes).map do |row|
-        Changelog.new(row["file'], row['applied'], row['version'], row['md5']) }
+      def has(index)
+        change(index).nil?
+      end
+
+      # @todo #/DEV Add verification of array usage over index.
+      #  The changelog shouldn't be a null.
+      def change(index)
+        @changelog[index]
       end
     end
-
-    def each
-      @changelog.each { |c| yield c }
-    end
-
-    private:
-
   end
 end

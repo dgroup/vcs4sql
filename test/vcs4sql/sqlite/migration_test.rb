@@ -1,10 +1,9 @@
-require_relative "../sqlite_test"
-require_relative "../../lib/vcs4sql/sqlite/migration"
+require_relative "../../sqlite_test"
+require_relative "../../../lib/vcs4sql/sqlite/migration"
 
 class MigrationTest < Vcs4sql::SqliteTest
-
   test "setup" do
-    file = ".tmp/00-setup.db"
+    file = "test/resources/00-setup/sqlite.db"
     Vcs4sql::Sqlite::Migration.new(file).send(:install_vcs4sql)
     assert_equal(
       2,
@@ -21,7 +20,12 @@ class MigrationTest < Vcs4sql::SqliteTest
   end
 
   test "upgrade files with multiple statements" do
-    file = ".tmp/01-upgrade-multiple-statements.db"
-    Vcs4sql::Sqlite::Migration.new(file).upgrade
+    file = "test/resources/01-upgrade-multiple-statements/sqlite.db"
+    Vcs4sql::Sqlite::Migration.new(file).upgrade File.dirname(file)
+    assert_equal(
+      ["555 555 003", "555 555 033"],
+      column("select p.number from phones p where p.owner = 3", file),
+      "The user with id=3 has 2 phone numbers"
+    )
   end
 end
