@@ -1,0 +1,46 @@
+version: 2.1
+
+executors:
+  ruby:
+    docker:
+      - image: circleci/ruby:2.7.0
+
+commands:
+  bundle_install:
+    steps:
+      - run: gem install bundler -v 2.1.3
+      - run: bundle install --jobs=4 --retry=3
+
+jobs:
+  rubocop:
+    executor: ruby
+    steps:
+      - checkout
+      - bundle_install
+      - run: bundle exec rubocop
+  test:
+    executor: ruby
+    steps:
+      - checkout
+      - bundle_install
+      - run: bundle exec rake test TESTOPTS="--ci-dir=./reports"
+      - store_test_results:
+          path: ./reports
+
+workflows:
+  version: 2
+  commit-workflow:
+    jobs:
+      - rubocop
+      - test
+  cron-workflow:
+    jobs:
+      - rubocop
+      - test
+    triggers:
+      - schedule:
+          cron: "0 13 * * 6"
+          filters:
+            branches:
+              only:
+                - master
