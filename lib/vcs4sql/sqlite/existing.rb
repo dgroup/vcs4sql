@@ -25,7 +25,7 @@ module Vcs4sql
         @changelog.empty?
       end
 
-      def has(index)
+      def absent(index)
         change(index).nil?
       end
 

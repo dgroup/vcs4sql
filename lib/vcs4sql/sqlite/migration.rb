@@ -28,19 +28,9 @@ module Vcs4sql
         existing = Vcs4sql::Sqlite::Existing.new @conn
         expected = Vcs4sql::Sqlite::Expected.new home, testdata
         if existing.empty?
-          expected.apply_all(@conn)
+          expected.apply_all @conn
         else
-          version = -1
-          expected.each_with_index do |change, i|
-            break if existing.has(i)
-
-            if change.matches existing.change(i)
-              version = i
-            else
-              change.alert existing.change(i)
-            end
-          end
-          expected.apply(version, @conn)
+          expected.apply_mismatch existing, @conn
         end
       end
 
@@ -50,20 +40,20 @@ module Vcs4sql
         # @todo #/DEV Lock the upgrade procedure in order to avoid the cases
         #  when multiple processes are going to modify/upgrade the same database
         #  schema. No concurrent upgrades is allowed so far.
-        @conn.execute_batch <<-SQL
-        create table if not exists changelog (
-            id        integer primary key autoincrement,
-            file      text not null,
-            applied   timestamp default current_timestamp,
-            version   integer unique not null,
-            md5sum    text not null,
-            sql       text not null
-        );
-        create table if not exists changeloglock (
-            id text primary key,
-            locked integer,
-            lockedby text
-        );
+        @conn.execute_batch2 <<~SQL
+          create table if not exists changelog (
+              id        integer primary key autoincrement,
+              file      text not null,
+              applied   timestamp default current_timestamp,
+              version   integer unique not null,
+              md5sum    text not null,
+              sql       text not null
+          );
+          create table if not exists changeloglock (
+              id text primary key,
+              locked integer,
+              lockedby text
+          );
         SQL
       end
     end

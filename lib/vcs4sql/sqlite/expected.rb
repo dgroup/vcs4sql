@@ -22,13 +22,25 @@ module Vcs4sql
         end
       end
 
-      def each_with_index
-        @changelog.each_with_index { |c, i| yield c, i }
-      end
-
       def apply_all(conn)
         apply(-1, conn)
       end
+
+      def apply_mismatch(existing, conn)
+        version = -1
+        @changelog.each_with_index do |change, i|
+          break if existing.absent(i)
+
+          if change.matches existing.change(i)
+            version = i
+          else
+            change.alert existing.change(i)
+          end
+        end
+        apply(version, conn)
+      end
+
+      private
 
       def apply(version, conn)
         # @todo #/DEV Raise an exception in case if any of arguments are null or

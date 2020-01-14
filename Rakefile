@@ -7,7 +7,7 @@ Rake::TestTask.new(:test) do |t|
   t.libs << "test"
   t.libs << "lib"
   t.test_files = FileList["test/**/*_test.rb"]
-  FileUtils.mkdir_p ".tmp"
+  Dir.glob("test/resources/**/*.db").each { |f| File.delete(f) }
 end
 
 RuboCop::RakeTask.new
@@ -89,11 +89,11 @@ module RubyVersions
 
     def versions
       @_versions ||= begin
-        yaml = URI.open(
-          "https://raw.githubusercontent.com/ruby/www.ruby-lang.org/master/_data/downloads.yml"
-        )
-        YAML.safe_load(yaml, symbolize_names: true)
-      end
+                       yaml = URI.open(
+                         "https://raw.githubusercontent.com/ruby/www.ruby-lang.org/master/_data/downloads.yml"
+                       )
+                       YAML.safe_load(yaml, symbolize_names: true)
+                     end
     end
   end
 end
