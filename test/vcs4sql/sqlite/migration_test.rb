@@ -47,6 +47,9 @@ class MigrationTest < Vcs4sql::SqliteTest
     )
   end
 
+  # @todo #/DEV The test should simulate the case when change set was applied to
+  #  database, then someone have changed the file accidentally, committed the
+  #  changes, and migration was triggered in prod.
   test "got exception due to checksum mismatch" do
     assert true, "not implemented yet"
   end

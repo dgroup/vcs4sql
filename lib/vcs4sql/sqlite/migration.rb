@@ -5,7 +5,7 @@ require "digest"
 require "fileutils"
 require_relative "../changelog"
 require_relative "expected"
-require_relative "existing"
+require_relative "applied"
 
 # The database schema migration
 #
@@ -25,7 +25,7 @@ module Vcs4sql
       # @param testdata
       def upgrade(home, testdata=false)
         install_vcs4sql
-        existing = Vcs4sql::Sqlite::Existing.new @conn
+        existing = Vcs4sql::Sqlite::Applied.new @conn
         expected = Vcs4sql::Sqlite::Expected.new home, testdata
         if existing.empty?
           expected.apply_all @conn
