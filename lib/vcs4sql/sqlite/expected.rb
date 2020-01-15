@@ -21,7 +21,9 @@
 # LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
-#
+
+require_relative "../exception"
+
 module Vcs4sql
   module Sqlite
     # The expected database change log.
@@ -45,11 +47,11 @@ module Vcs4sql
         changelog.each_with_index do |change, i|
           break if existing.absent(i)
 
-          if change.matches existing.change(i)
-            version = i
-          else
-            change.alert existing.change(i)
+          unless change.matches existing.change(i)
+            raise Vcs4sql::ChecksumMismatchError.new change, existing.change(i)
           end
+
+          version = i
         end
         apply(version, conn)
       end

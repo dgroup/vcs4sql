@@ -43,5 +43,23 @@ module Vcs4sql
       conn.results_as_hash = true
       conn.query(sql).map { |r| r.values.first }
     end
+
+    # Add a new changelog record to the sqlite database
+    def add_change(src, version, md5, sql, file, date: Time.now.iso8601(6))
+      Vcs4sql::Sqlite::Migration.new(file).send(:install_vcs4sql)
+      conn = SQLite3::Database.new file
+      Vcs4sql::Changelog.new(src, date, version, md5, sql).apply conn
+    end
+
+    # Ensure that &block throws the exception with required message and type.
+    # @param [String] msg The expected error message
+    # @param [Class<Exception>] type The expected error type
+    def throws(msg, type)
+      flunk "throws requires a block to capture errors." unless block_given?
+      cause = assert_raises type, "Required error wasn't thrown" do
+        yield
+      end
+      assert_match msg, cause.message
+    end
   end
 end

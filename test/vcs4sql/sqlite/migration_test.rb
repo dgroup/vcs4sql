@@ -23,6 +23,7 @@
 
 require_relative "../../sqlite_test"
 require_relative "../../../lib/vcs4sql/sqlite/migration"
+require_relative "../../../lib/vcs4sql/exception"
 
 class MigrationTest < Vcs4sql::SqliteTest
   test "setup" do
@@ -62,7 +63,7 @@ class MigrationTest < Vcs4sql::SqliteTest
 
   test "upgrade files with test data" do
     file = "test/resources/02-upgrade-with-test-data/sqlite.db"
-    Vcs4sql::Sqlite::Migration.new(file).upgrade(File.dirname(file), true)
+    Vcs4sql::Sqlite::Migration.new(file).upgrade File.dirname(file), true
     assert_equal(
       ["555 555 003", "555 555 033"],
       column("select p.number from phones p where p.owner = 3", file),
@@ -70,10 +71,21 @@ class MigrationTest < Vcs4sql::SqliteTest
     )
   end
 
-  # @todo #/DEV The test should simulate the case when change set was applied to
-  #  database, then someone have changed the file accidentally, committed the
-  #  changes, and migration was triggered in prod.
   test "got exception due to checksum mismatch" do
-    assert true, "not implemented yet"
+    file = "test/resources/03-upgrade-failure-due-to-md5sum-mismatch/sqlite.db"
+    # Initiate a fake applied change
+    add_change(
+      "#{File.dirname(file)}/03-define-table-structure.sql", 0,
+      "e0000bf0a00ab0d0d00c000da0000",
+      "create table if not exists users(id integer)",
+      file
+    )
+    # Ensure that we got checksum mismatch error
+    throws(
+      "vcs4sql-001: Version '0' has checksum mismatch",
+      Vcs4sql::ChecksumMismatchError
+    ) do
+      Vcs4sql::Sqlite::Migration.new(file).upgrade File.dirname(file)
+    end
   end
 end
