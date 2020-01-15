@@ -1,5 +1,3 @@
-# vcs4sql 
-
 [![Gem Version](https://badge.fury.io/rb/vcs4sql.svg)](https://rubygems.org/gems/vcs4sql)
 [![License: MIT](https://img.shields.io/github/license/mashape/apistatus.svg)](./license.txt)
 [![Commit activity](https://img.shields.io/github/commit-activity/y/dgroup/mbox4j.svg?style=flat-square)](https://github.com/dgroup/mbox4j/graphs/commit-activity)
@@ -22,8 +20,8 @@
 In the last few years, version control for database became best practice.
 There are several implementations/ways for ruby, however, most of them are focused/dependent on particular
 frameworks that restrict the migration outside the framework.
-vcs4sql allows organizing version control for the database(s) in a simple,
-elegant and lightweight way without any dependencies on existing frameworks.
+vcs4sql allows organizing version control for the database(s) in a simple,elegant and lightweight way without any dependencies on existing frameworks.
+
 ---
 
 - [Quick start](#quick-start)
