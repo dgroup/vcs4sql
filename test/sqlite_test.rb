@@ -7,12 +7,14 @@ Dir[File.expand_path("support/**/*.rb", __dir__)].sort.each { |rb| require(rb) }
 
 module Vcs4sql
   class SqliteTest < ActiveSupport::TestCase
-    def count(sql, file)
+    # Fetches first column value from first result's row
+    def first(sql, file)
       conn = SQLite3::Database.new file
       conn.results_as_hash = true
       conn.query(sql).first.values.first
     end
 
+    # Fetches first values from all result's row
     def column(sql, file)
       conn = SQLite3::Database.new file
       conn.results_as_hash = true

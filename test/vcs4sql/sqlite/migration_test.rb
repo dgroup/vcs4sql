@@ -7,7 +7,7 @@ class MigrationTest < Vcs4sql::SqliteTest
     Vcs4sql::Sqlite::Migration.new(file).send(:install_vcs4sql)
     assert_equal(
       2,
-      count(
+      first(
         "select count(*)
          from sqlite_master
          where
@@ -23,9 +23,31 @@ class MigrationTest < Vcs4sql::SqliteTest
     file = "test/resources/01-upgrade-multiple-statements/sqlite.db"
     Vcs4sql::Sqlite::Migration.new(file).upgrade File.dirname(file)
     assert_equal(
+      "phones_owner_fk",
+      first(
+        "select name
+        from sqlite_master
+        where
+          type = 'index'
+          and tbl_name = 'phones'
+          and name like '%fk'",
+        file
+      ),
+      "The table 'phones' has expected index for column 'owner'"
+    )
+  end
+
+  test "upgrade files with test data" do
+    file = "test/resources/02-upgrade-with-test-data/sqlite.db"
+    Vcs4sql::Sqlite::Migration.new(file).upgrade(File.dirname(file), true)
+    assert_equal(
       ["555 555 003", "555 555 033"],
       column("select p.number from phones p where p.owner = 3", file),
       "The user with id=3 has 2 phone numbers"
     )
+  end
+
+  test "got exception due to checksum mismatch" do
+    assert true, "not implemented yet"
   end
 end

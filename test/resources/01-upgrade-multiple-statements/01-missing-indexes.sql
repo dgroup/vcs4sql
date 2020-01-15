@@ -1,0 +1,1 @@
+create index phones_owner_fk on phones(owner);
