@@ -76,4 +76,5 @@ elegant way without any dependencies on existing frameworks.'
   spec.add_development_dependency "rubocop-performance", "1.5.2"
   spec.add_development_dependency "ruby-debug-ide", "~> 0.7.0"
   spec.add_development_dependency "simplecov", "~> 0.17.1"
+  spec.add_development_dependency "xcop", "~> 0.6"
 end

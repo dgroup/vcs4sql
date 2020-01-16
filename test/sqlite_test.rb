@@ -22,6 +22,8 @@
 #
 
 $LOAD_PATH.unshift File.expand_path("../lib", __dir__)
+require "simplecov"
+SimpleCov.start
 require "vcs4sql"
 require "sqlite3"
 require "active_support"

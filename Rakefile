@@ -20,28 +20,36 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 #
-
 require "bundler/gem_tasks"
 require "rake/testtask"
 require "rubocop/rake_task"
 require "fileutils"
+require "xcop/rake_task"
 
+task default: %i[cleanup test rubocop xcop]
+
+desc "Run tests"
 Rake::TestTask.new(:test) do |t|
   t.libs << "test"
   t.libs << "lib"
   t.test_files = FileList["test/**/*_test.rb"]
+  t.verbose = true
+  t.warning = false
+end
+RuboCop::RakeTask.new
+
+desc "Validate all XML/XSL/XSD/HTML files for formatting"
+Xcop::RakeTask.new :xcop do |task|
+  task.license = "license.txt"
+  task.includes = %w[**/*.xml **/*.xsl **/*.xsd **/*.html]
+  task.excludes = %w[target/**/* coverage/**/* wp/**/*]
+end
+
+task :cleanup do
   Dir.glob("test/resources/**/*.db").each { |f| File.delete(f) }
 end
 
-RuboCop::RakeTask.new
-
-task default: %i[test rubocop]
 task bump: %w[bump:bundler bump:ruby bump:year]
-
-Rake::Task["release"].enhance do
-  puts "Don't forget to publish the release on GitHub!"
-  system "open https://github.com/dgroup/vcs4sql/releases"
-end
 
 namespace :bump do
   task :bundler do
@@ -69,7 +77,11 @@ namespace :bump do
   end
 
   task :year do
-    replace_in_file "license.txt", /\(c\) (\d+)/ => Date.today.year.to_s
+    sh "grep -q -r '2020-#{Date.today.strftime('%Y')}' \
+    --include '*.rb' \
+    --include '*.txt' \
+    --include 'Rakefile' \
+    ."
   end
 end
 

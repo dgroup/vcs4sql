@@ -1,0 +1,34 @@
+# @todo #/DEV Enable Travis CI as second CI server once the project
+#  became a public. This might be alternative for Circle CI (just in case)
+
+# @todo #/DEV Explain in readme.md how to use the project,
+#  add more instructions and generic guide.
+
+# @todo #/DEV There a lot of badges in readme which aren't enabled for now.
+#  Let's enable them.
+
+# @todo #/DEV Publish a gem to the rubygems.org. Add this instructions to the @Rultor.
+#  No manual actions required.
+
+# @todo #/DEV Migrate to ruby 2.7.0. For now the project has 2.6.5.
+#  The project is new, it shouldn't be so expensive.
+
+# @todo #/DEV Think about support of Postgres, MySQL, Oracle and others.
+#  We need to reuse the existing structure as much as we can.
+#  Most of classes which are oriented on SQLite should be modified.
+#  The structure of potential upgrade folder might be the following
+#  ...
+#  |- lib
+#  |- test
+#  |- upgrade
+#     |- sqlite
+#         |- 00-define-initial-structure.sql
+#         |- 02-add-missing-foreign-keys.sql
+#         |- 03-add-missing-indexes.sql
+#         |- 99-add.testdata.sql
+#     |- postgres
+#         |- ...
+#     |- mysql
+#         |- ...
+#  |- Gemfile
+#  ...
