@@ -21,14 +21,14 @@
 #  |- lib
 #  |- test
 #  |- upgrade
-#     |- sqlite
-#         |- 00-define-initial-structure.sql
-#         |- 02-add-missing-foreign-keys.sql
-#         |- 03-add-missing-indexes.sql
-#         |- 99-add.testdata.sql
-#     |- postgres
-#         |- ...
-#     |- mysql
-#         |- ...
+#  ||||- sqlite
+#  ||||||||- 00-define-initial-structure.sql
+#  ||||||||- 02-add-missing-foreign-keys.sql
+#  ||||||||- 03-add-missing-indexes.sql
+#  ||||||||- 99-add.testdata.sql
+#  ||||- postgres
+#  ||||||||- ...
+#  |||||- mysql
+#  ||||||||- ...
 #  |- Gemfile
 #  ...
