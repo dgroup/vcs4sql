@@ -48,7 +48,7 @@ module Vcs4sql
           break if existing.absent(i)
 
           unless change.matches existing.change(i)
-            raise Vcs4sql::ChecksumMismatchError.new change, existing.change(i)
+            raise ChecksumMismatchError.new change, existing.change(i)
           end
 
           version = i

@@ -48,8 +48,8 @@ module Vcs4sql
       # @param testdata
       def upgrade(home, testdata=false)
         install_vcs4sql
-        existing = Vcs4sql::Sqlite::Applied.new @conn
-        expected = Vcs4sql::Sqlite::Expected.new home, testdata
+        existing = Applied.new @conn
+        expected = Expected.new home, testdata
         if existing.empty?
           expected.apply_all @conn
         else

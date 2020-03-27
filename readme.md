@@ -20,8 +20,10 @@
 In the last few years, version control for database became best practice.
 There are several implementations/ways for ruby, however, most of them are focused/dependent on particular
 frameworks that restrict the migration outside the framework.
-vcs4sql allows organizing version control for the database(s) in a simple,elegant and lightweight way without any dependencies on existing frameworks.
+vcs4sql allows organizing version control for the database(s) in a simple, elegant and lightweight way without any dependencies on existing frameworks.
 
+The main idea is to keep changes as simple as possible and be able to have full control of the database structure without hidden frameworks "magic".
+Initial PoC is designed for [sqlite](https://www.sqlite.org). 
 ---
 
 - [Quick start](#quick-start)
@@ -30,28 +32,51 @@ vcs4sql allows organizing version control for the database(s) in a simple,elegan
 - [Code of conduct](#code-of-conduct)
 - [Contribution guide](#contribution-guide)
 
-## Quick start
+### Quick start
 
 ```
 $ gem install vcs4sql
 ```
-
+```bash
+# Define the database migration scripts
+$ tree
+.
+├── bin
+├── Gemfile
+├── Guardfile
+├── Rakefile
+├── ...
+│   ├── ...
+├── sqlite.db
+├── ...
+└── upgrades
+    └── sqlite
+        ├── 001-install-main-tables.sql
+        ├── 002-add-missing-indexes.sql
+        ├── 003-add-missing-foreigh-keys.sql
+        ├── ...
+        └── 999.testdata.sql
+```
 ```ruby
 require "vcs4sql"
+ 
+Vcs4sql::Sqlite::Migration.new "sqlite.db"
+                          .upgrade "upgrades/sqlite"
 ```
+The scripts will be executed in a natural order based on name, so far.
 
-## Support
+### Support
 
 If you want to report a bug, or have ideas, feedback or questions about the gem, [let me know via GitHub issues](https://github.com/dgroup/vcs4sql/issues/new) and I will do my best to provide a helpful answer. Happy hacking!
 
-## License
+### License
 
 The gem is available as open source under the terms of the [MIT License](license.txt).
 
-## Code of conduct
+### Code of conduct
 
 Everyone interacting in this project’s codebases, issue trackers, chat rooms and mailing lists is expected to follow the [code of conduct](.github/CODE_OF_CONDUCT.md).
 
-## Contribution guide
+### Contribution guide
 
 Pull requests are welcome!
