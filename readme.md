@@ -7,15 +7,15 @@
 [![Build Status travis](https://img.shields.io/travis/dgroup/vcs4sql.svg?label=travis)](https://travis-ci.org/dgroup/vcs4sql)
 [![0pdd](http://www.0pdd.com/svg?name=dgroup/vcs4sql)](http://www.0pdd.com/p?name=dgroup/vcs4sql)
 [![Dependency Status](https://requires.io/github/dgroup/vcs4sql/requirements.svg?branch=master)](https://requires.io/github/dgroup/vcs4sql/requirements/?branch=master)
-[![Known Vulnerabilities](https://snyk.io/test/github/dgroup/vcs4sql/badge.svg)](https://snyk.io/org/dgroup/project/<TBD>/?tab=dependencies&vulns=vulnerable)
+[![Known Vulnerabilities](https://snyk.io/test/github/dgroup/vcs4sql/badge.svg)](https://snyk.io/org/dgroup/project/vcs4sql/?tab=dependencies&vulns=vulnerable)
 [![DevOps By Rultor.com](http://www.rultor.com/b/dgroup/vcs4sql)](http://www.rultor.com/p/dgroup/vcs4sql)
 
 [![EO badge](http://www.elegantobjects.org/badge.svg)](http://www.elegantobjects.org/#principles)
 [![SQ maintainability](https://sonarcloud.io/api/project_badges/measure?project=io.github.dgroup%3Avcs4sql&metric=sqale_rating)](https://sonarcloud.io/dashboard?id=io.github.dgroup%3Avcs4sql)
-[![Codebeat](https://codebeat.co/badges/<TBD>)](https://codebeat.co/projects/github-com-dgroup-vcs4sql-master)
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/<TBD>)](https://www.codacy.com/app/dgroup/vcs4sql?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=dgroup/vcs4sql&amp;utm_campaign=Badge_Grade)
+[![Codebeat](https://codebeat.co/badges/vcs4sql)](https://codebeat.co/projects/github-com-dgroup-vcs4sql-master)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/vcs4sql)](https://www.codacy.com/app/dgroup/vcs4sql?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=dgroup/vcs4sql&amp;utm_campaign=Badge_Grade)
 [![Codecov](https://codecov.io/gh/dgroup/vcs4sql/branch/master/graph/badge.svg)](https://codecov.io/gh/dgroup/vcs4sql)
-[![Code Climate](https://codeclimate.com/github/dgroup/vcs4sql/badges/gpa.svg)](https://codeclimate.com/github/dgroup/vcs4sql)
+[![Maintainability](https://api.codeclimate.com/v1/badges/e873a41b1c76d7b2d6ae/maintainability)](https://codeclimate.com/github/dgroup/vcs4sql/maintainability)
 
 In the last few years, version control for database became best practice.
 There are several implementations/ways for ruby, however, most of them are focused/dependent on particular
