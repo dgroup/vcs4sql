@@ -1,7 +1,7 @@
 [![Gem Version](https://badge.fury.io/rb/vcs4sql.svg)](https://rubygems.org/gems/vcs4sql)
 [![License: MIT](https://img.shields.io/github/license/mashape/apistatus.svg)](./license.txt)
 [![Commit activity](https://img.shields.io/github/commit-activity/y/dgroup/vcs4sql.svg?style=flat-square)](https://github.com/dgroup/vcs4sql/graphs/commit-activity)
-[![Hits-of-Code](https://hitsofcode.com/github/dgroup/mbox4j)](https://hitsofcode.com/view/github/dgroup/mbox4j)
+[![Hits-of-Code](https://hitsofcode.com/github/dgroup/vcs4sql)](https://hitsofcode.com/view/github/dgroup/vcs4sql)
 
 [![Build status circleci](https://circleci.com/gh/dgroup/vcs4sql.svg?style=shield)](https://circleci.com/gh/dgroup/vcs4sql)
 [![Build Status travis](https://img.shields.io/travis/dgroup/vcs4sql.svg?label=travis)](https://travis-ci.org/dgroup/vcs4sql)
@@ -24,6 +24,7 @@ vcs4sql allows organizing version control for the database(s) in a simple, elega
 
 The main idea is to keep changes as simple as possible and be able to have full control of the database structure without hidden frameworks "magic".
 Initial PoC is designed for [sqlite](https://www.sqlite.org). 
+
 ---
 
 - [Quick start](#quick-start)
