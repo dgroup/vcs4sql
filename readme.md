@@ -1,6 +1,6 @@
 [![Gem Version](https://badge.fury.io/rb/vcs4sql.svg)](https://rubygems.org/gems/vcs4sql)
 [![License: MIT](https://img.shields.io/github/license/mashape/apistatus.svg)](./license.txt)
-[![Commit activity](https://img.shields.io/github/commit-activity/y/dgroup/mbox4j.svg?style=flat-square)](https://github.com/dgroup/mbox4j/graphs/commit-activity)
+[![Commit activity](https://img.shields.io/github/commit-activity/y/dgroup/vcs4sql.svg?style=flat-square)](https://github.com/dgroup/vcs4sql/graphs/commit-activity)
 [![Hits-of-Code](https://hitsofcode.com/github/dgroup/mbox4j)](https://hitsofcode.com/view/github/dgroup/mbox4j)
 
 [![Build status circleci](https://circleci.com/gh/dgroup/vcs4sql.svg?style=shield)](https://circleci.com/gh/dgroup/vcs4sql)
