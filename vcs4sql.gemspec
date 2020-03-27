@@ -62,8 +62,8 @@ elegant way without any dependencies on existing frameworks.'
   spec.required_ruby_version = ">= 2.6.5"
 
   spec.add_runtime_dependency "activesupport", "~> 6.0"
-  spec.add_runtime_dependency "fileutils"
-  spec.add_runtime_dependency "sqlite3"
+  spec.add_runtime_dependency "fileutils", "~> 1.4.1"
+  spec.add_runtime_dependency "sqlite3", "~> 1.4.2"
 
   spec.add_development_dependency "bundler", "~> 2.0"
   spec.add_development_dependency "debase", "~> 0.2.4.1"
