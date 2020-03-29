@@ -2,7 +2,8 @@
 [![License: MIT](https://img.shields.io/github/license/mashape/apistatus.svg)](./license.txt)
 [![Commit activity](https://img.shields.io/github/commit-activity/y/dgroup/vcs4sql.svg?style=flat-square)](https://github.com/dgroup/vcs4sql/graphs/commit-activity)
 [![Hits-of-Code](https://hitsofcode.com/github/dgroup/vcs4sql)](https://hitsofcode.com/view/github/dgroup/vcs4sql)
-    
+[![Downloads](https://ruby-gem-downloads-badge.herokuapp.com/vcs4sql?type=total)](https://rubygems.org/gems/vcs4sql)
+
 [![Build status circleci](https://circleci.com/gh/dgroup/vcs4sql.svg?style=shield)](https://circleci.com/gh/dgroup/vcs4sql)
 [![0pdd](http://www.0pdd.com/svg?name=dgroup/vcs4sql)](http://www.0pdd.com/p?name=dgroup/vcs4sql)
 [![Dependency Status](https://requires.io/github/dgroup/vcs4sql/requirements.svg?branch=master)](https://requires.io/github/dgroup/vcs4sql/requirements/?branch=master)
